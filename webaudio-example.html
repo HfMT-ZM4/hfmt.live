@@ -1,44 +1,32 @@
 
-<div>
-    mouse drag video example
- </div>
- 
+
+    
 
   <style>
-        .volume {
+        input {
             z-index: 200;
         }
 
-        /* for vertical slider */
-        input[type="range"] {
-            writing-mode: bt-lr;
-            -webkit-appearance: slider-vertical;
+        #exampleDiv {
+            top: 100px;
+            z-index: 200;
         }
+
   </style>
 
+<div id="exampleDiv">
+    <p>WebAudio Example</p>
+    <input id="gain" name="gain" type="range" min="0" max="1." step="0.001">
+    <label for="gain">Volume</label>
+
+    <input id="pan" name="pan"  type="range" min="-1" max="0" step="0.001">
+    <label for="gain">Pan</label>
+
+ </div>
+
+
+
  <script>
-
-
-    function makeVolumeSlider(id = 'foo') 
-    {
-        // <input class="volume" id='htmlslider' type="range" min="0" max="1" value="0" step="0.001" orient="vertical">
-        let newSlider = document.createElement("input");   
-        newSlider.setAttribute('type', 'range');
-        newSlider.setAttribute('class', 'volume');
-        newSlider.setAttribute('min', 0);
-        newSlider.setAttribute('max', 1);
-        newSlider.setAttribute('value', 1);
-        newSlider.setAttribute('step', 0.001);
-        newSlider.setAttribute('orient', 'vertical');
-        newSlider.id = id; //+"-volume"
-
-        newSlider.addEventListener('input', e => {
-            console.log('new volume', e.target.value, newSlider.id );
-        })
-
-        return newSlider;
-    }
-
 
     let localMediaStream;
 
@@ -64,30 +52,84 @@
         console.log('added video stream only');
 
 
+        // setup webaudio on user action (e.g. clicking the start stream button calls this function)
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
         var gainNode = audioCtx.createGain();
+        var panner = audioCtx.createPanner();
+        const source = audioCtx.createMediaStreamSource(localMediaStream);
+        var dest = audioCtx.createMediaStreamDestination();
 
-        let gainSlider = makeVolumeSlider('gainSlider');
+        source.connect(gainNode);
+        gainNode.connect(panner);
+        panner.connect(dest);
 
-        document.getElementById('videos').appendChild(gainSlider);
+       // gainNode.connect(panner);
+       // panner.connect(audioCtx.destination);
+       let gainSlider = document.getElementById('gain');
+        let panSlider = document.getElementById('pan');
 
         //let gainSlider = document.getElementById('gain');
         gainSlider.oninput = () => {
             gainNode.gain.setValueAtTime(gainSlider.value, audioCtx.currentTime);
         }
 
-        var panner = audioCtx.createPanner();
 
+        // setup panner
+        panner.panningModel = 'HRTF';
+        panner.distanceModel = 'inverse';
+        panner.refDistance = 1;
+        panner.maxDistance = 10000;
+        panner.rolloffFactor = 1;
+        panner.coneInnerAngle = 360;
+        panner.coneOuterAngle = 0;
+        panner.coneOuterGain = 0;
+                
+        let listener = audioCtx.listener;
 
-        const source = audioCtx.createMediaStreamSource(localMediaStream);
+        if(listener.forwardX) 
+        {
+            listener.forwardX.value = 0;
+            listener.forwardY.value = 0;
+            listener.forwardZ.value = -1;
+            listener.upX.value = 0;
+            listener.upY.value = 1;
+            listener.upZ.value = 0;
+        } else {
+            listener.setOrientation(0, 0, -1, 0, 1, 0);
+        }
 
-        var dest = audioCtx.createMediaStreamDestination();
+        let xPos = 0;
+        let yPos = 0;
+        let zPos = -1;
 
-        source.connect(gainNode);
-        gainNode.connect(dest);
+        let dist = 2;
+        
+        if(panner.positionX) {
+            panner.positionX.value = xPos;
+            panner.positionY.value = yPos;
+            panner.positionZ.value = zPos;
+        } else {
+            panner.setPosition(xPos,yPos,zPos);
+        }
 
-       // gainNode.connect(panner);
-       // panner.connect(audioCtx.destination);
+        panSlider.oninput = () => {
+            let az = panSlider.value * Math.PI; // k-rate
+            xPos =  dist * Math.cos(az);
+            zPos = dist * Math.sin(az);
+          //  console.log(`az ${az}, xPos ${xPos}, yPos ${yPos}, zPos ${zPos}` )
+
+            if(panner.positionX) {
+                panner.positionX.value = xPos;
+                panner.positionY.value = yPos;
+                panner.positionZ.value = zPos;
+            } else {
+                panner.setPosition(xPos,yPos,zPos);
+            }
+
+        }
+
+        // ? audioCtx.resume();
 
 
         await drawsocket.sendStream(dest.stream, 'audio');
@@ -103,6 +145,8 @@
    function init()
    {
     
+
+
         let loggedButton = document.getElementById('btn_start');
         let ui = loggedButton.parentElement;
         
@@ -116,6 +160,12 @@
        vidTag.style ="z-index: 50";
 
        document.body.appendChild(vidTag);
+
+       let exdiv = document.querySelector('#exampleDiv');
+      
+
+        document.body.appendChild(exdiv);
+
 
        console.log( drawsocket.getMediaStreams() );
 
