@@ -23,6 +23,7 @@ input {
 <script>
 
 let localMediaStream;
+let audioID = "default", videoID = "default";
 
 async function startMediaStream () {
 
@@ -31,9 +32,13 @@ async function startMediaStream () {
 
     try {
 
+        if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+            console.log("enumerateDevices() not supported.");
+            return;
+        }
 
-        navigator.mediaDevices.enumerateDevices()
-        .then(function(devices) {
+
+        navigator.mediaDevices.enumerateDevices().then(function(devices) {
             devices.forEach(function(device) {
                 console.log(device.kind + ": " + device.label +
                             " id = " + device.deviceId);
