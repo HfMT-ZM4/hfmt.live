@@ -25,6 +25,25 @@ input {
 let localMediaStream;
 let audioID = "default", videoID = "default";
 
+if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+            console.log("enumerateDevices() not supported.");
+}
+
+
+navigator.mediaDevices.enumerateDevices().then(function(devices) {
+    devices.forEach(function(device) {
+        console.log('device', device)
+
+        console.log(device.kind + ": " + device.label +
+                    " id = " + device.deviceId);
+    });
+}).catch(function(err) {
+    console.log(err.name + ": " + err.message);
+});
+
+
+
+
 async function startMediaStream () {
 
     if (localMediaStream)
@@ -140,25 +159,6 @@ async function startMediaStream () {
 
 function init()
 {
-
-    if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
-            console.log("enumerateDevices() not supported.");
-            return;
-        }
-
-
-        navigator.mediaDevices.enumerateDevices().then(function(devices) {
-            devices.forEach(function(device) {
-                console.log('device', device)
-
-                console.log(device.kind + ": " + device.label +
-                            " id = " + device.deviceId);
-            });
-        }).catch(function(err) {
-            console.log(err.name + ": " + err.message);
-        });
-
-
 
     let loggedButton = document.getElementById('btn_start');
     let ui = loggedButton.parentElement;
