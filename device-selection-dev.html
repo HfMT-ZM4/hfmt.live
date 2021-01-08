@@ -32,14 +32,13 @@ async function startMediaStream () {
 
     try {
 
-        if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
-            console.log("enumerateDevices() not supported.");
-            return;
-        }
+        localMediaStream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true
+        });
 
         navigator.mediaDevices.enumerateDevices().then( function(devices) {
             devices.forEach(function(device) {
-                console.log('device', device)
 
                 console.log(device.kind + ": " + device.label +
                             " id = " + device.deviceId);
@@ -51,10 +50,6 @@ async function startMediaStream () {
         return;
 
 
-        localMediaStream = await navigator.mediaDevices.getUserMedia({
-            video: true,
-            audio: true
-        });
 
     }
     catch (e) {
