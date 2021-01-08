@@ -40,6 +40,8 @@ async function startMediaStream () {
 
         navigator.mediaDevices.enumerateDevices().then(function(devices) {
             devices.forEach(function(device) {
+                console.log('device', device)
+
                 console.log(device.kind + ": " + device.label +
                             " id = " + device.deviceId);
             });
@@ -47,7 +49,6 @@ async function startMediaStream () {
             console.log(err.name + ": " + err.message);
         });
 
-        console.log()
 
         localMediaStream = await navigator.mediaDevices.getUserMedia({
             video: true,
