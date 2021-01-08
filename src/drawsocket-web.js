@@ -1160,8 +1160,8 @@ function parseObjRefVars(vars) {
   }
 }
 
-
-Tone.Buffer.on('load', function () {
+Tone.loaded().then(() => {
+  // all your samples are loaded
   let msg = {};
   msg.event = {
     key: 'status',
@@ -1172,6 +1172,18 @@ Tone.Buffer.on('load', function () {
   sendMsg(msg);
 })
 
+/*
+Tone.Buffer.on('load', function () {
+  let msg = {};
+  msg.event = {
+    key: 'status',
+    val: {
+      bufferloaded: 1
+    }
+  };
+  sendMsg(msg);
+})
+*/
 function toneObjectFactory(type, vars, callback_id) {
 
   parseObjRefVars(vars);
