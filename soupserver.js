@@ -27,21 +27,22 @@ const { name = 'default', port = '8080'} = args;
 const app = express();
 const server = http.createServer(app);
 
-const io = socketio(server, { origins: '*:*'});
 /*
+const io = socketio(server, { origins: '*:*'});
+
 const io = socketio(server, {
   cors: {
     origin: '*',
   }
 });
-
+*/
 const io = socketio(server, { 
   'cors': { 
     'methods': ['GET', 'PATCH', 'POST', 'PUT'], 
-    'origin': true// accept from any domain 
+    'origin': true // accept from any domain 
   } 
 });
-*/
+
 
 const log = (msg) => {
   console.log(`[${Date()}]: ${msg}`);
