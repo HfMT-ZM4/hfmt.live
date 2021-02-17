@@ -8,6 +8,13 @@ There is a default view for the page, but the system was designed to host user d
 
 JSON files may also be used, using the [drawsocket](https://github.com/HfMT-ZM4/drawsocket) system designed for dynamic score display.
 
+### Installing Mediasoup
+
+Note that on some systems, mediasoup may fail to install, if this happens, you may need to set change the default python to be python3, like:
+
+`$ PYTHON=python3 npm install mediasoup@3 --save`
+
+
 ## Basic use
 *please note: `hfmt.live` is very much an experimental developmental project! this code is possibly unstable and subject to change unexpectedly!*
 

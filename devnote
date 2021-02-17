@@ -14,3 +14,12 @@ https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamAudioSourceNode
 
 output from webaudio to stream to conenct to webrtc:
 https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamAudioDestinationNode
+
+
+https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+>>
+Another non-number constraint is the deviceId constraint. 
+If you have a deviceId from mediaDevices.enumerateDevices(), 
+you can use it to request a specific device:
+
+{ video: { deviceId: myPreferredCameraDeviceId } }

@@ -15,7 +15,7 @@
   </style>
 
 <div id="exampleDiv">
-    <p>WebAudio Example</p>
+    <p>WebAudio Example: load this file before starting media stream</p>
     <input id="gain" name="gain" type="range" min="0" max="1." step="0.001">
     <label for="gain">Volume</label>
 
@@ -145,7 +145,7 @@
    function init()
    {
     
-
+    console.log('hi')
 
         let loggedButton = document.getElementById('btn_start');
         let ui = loggedButton.parentElement;

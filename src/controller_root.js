@@ -7,7 +7,6 @@
 import * as soupclient from './soupclient-module';
 import io from 'socket.io-client';
 import * as drawsocket from './drawsocket-web';
-import { isGeneratorFunction } from 'pdfjs-dist/build/pdf.worker';
 
 (function(){
 
