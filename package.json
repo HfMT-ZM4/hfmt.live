@@ -13,7 +13,7 @@
     "express": "^4.17.1",
     "gsap": "^3.6.0",
     "http": "0.0.1-security",
-    "mediasoup": "^3.6.30",
+    "mediasoup": "^3.6.32",
     "mediasoup-client": "^3.6.5",
     "minimist": "^1.2.5",
     "pdfjs-dist": "^2.3.200",
