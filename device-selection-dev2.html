@@ -1,0 +1,51 @@
+
+<html>
+    <head>
+    </head>
+<body>
+
+
+    <button id="btn_start">Start Webcam</button>
+
+    <script>
+
+        let localMediaStream;
+        let audioID = "default", videoID = "default";
+
+        let audioDevcies = {};
+        let videoDevices = {};
+
+        async function getDevices () {
+
+            if (localMediaStream)
+                return;
+
+            try {
+
+                localMediaStream = await navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: true
+                });
+
+                let devices = await navigator.mediaDevices.enumerateDevices();
+
+                devices.forEach(function(device) {
+
+                        console.log(device.kind + ": " + device.label +
+                                    " id = " + device.deviceId);
+                });
+                
+            }
+            catch (e) {
+                console.error('start camera error', e);
+            }
+
+            console.log(localMediaStream);
+        }
+
+
+        document.getElementById('btn_start').addEventListener('click', async ()=> getDevices() )
+
+    </script>
+</body>
+</html>

@@ -136,14 +136,14 @@ export async function leaveRoom() {
     // close everything on the server-side (transports, producers, consumers)
     let { error } = await socket.request('leave');
     if (error) {
-        err(error);
+        err('socket.request', error);
     }
     
     try {
         recvTransport && await recvTransport.close();
         sendTransport && await sendTransport.close();
     } catch (e) {
-        console.error(e);
+        console.error('close()', e);
     }
 
     recvTransport = null;
