@@ -93,14 +93,17 @@
                     if( device.kind == "audioinput" )
                     {
                         audioInDevcies[device.label] = device.deviceId;
+                        console.log(device.kind + ": " + device.label +
+                                    " id = " + device.deviceId);
                     }
                     else if(device.kind == "videoinput" )
                     {
                         videoInDevices[device.label] = device.deviceId;
-
-                    }
                         console.log(device.kind + ": " + device.label +
                                     " id = " + device.deviceId);
+
+                    }
+                        //console.log(device.kind + ": " + device.label +" id = " + device.deviceId);
                 });
                 
             }
@@ -161,11 +164,13 @@
             modal.style.display = "block";
             await getDevices();
 
+            console.log("after get");
+
             makeMenu("#sel_video", videoInDevices, (val) => {
                 console.log('set video to ', val);
             });
 
-            makeMenu("#sel_audioi", audioInDevcies, (val) => {
+            makeMenu("#sel_audio", audioInDevcies, (val) => {
                 console.log('set audio to ', val);
             });
            
