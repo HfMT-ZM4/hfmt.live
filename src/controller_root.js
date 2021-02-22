@@ -649,9 +649,57 @@ import * as drawsocket from './drawsocket-web';
 
     }
 
+
+    let audioInDevcies = {};
+    let videoInDevices = {};
+
+    let selectedAudioID = "default";
+    let selectedVideoID = "default";
+
+    async function getDevices () {
+
+        let mediaStream = null;
+
+        try {
+
+            mediaStream = await navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: true
+            });
+
+            let devices = await navigator.mediaDevices.enumerateDevices();
+
+            devices.forEach(function(device) {
+
+                if( device.kind == "audioinput" )
+                {
+                    audioInDevcies[device.label] = device.deviceId;
+                    console.log(device.kind + ": " + device.label +
+                                " id = " + device.deviceId);
+                }
+                else if(device.kind == "videoinput" )
+                {
+                    videoInDevices[device.label] = device.deviceId;
+                    console.log(device.kind + ": " + device.label +
+                                " id = " + device.deviceId);
+
+                }
+                    //console.log(device.kind + ": " + device.label +" id = " + device.deviceId);
+            });
+            
+        }
+        catch (e) {
+            console.error('start media streams error', e);
+            return;
+        }
+
+        console.log(mediaStream);
+    }
+
+    
     window.addEventListener('load', () => {
         $('#btn_connect').addEventListener('click', soupclient.joinRoom );
-        $('#btn_start').addEventListener('click', startStream); // << this should maybe be in the soupclient...
+       // $('#btn_start').addEventListener('click', startStream); // << this should maybe be in the soupclient...
         
         $('#input_sendfile').addEventListener('change', handleFiles, false);
 
@@ -681,6 +729,94 @@ import * as drawsocket from './drawsocket-web';
 
         setupMax();
 
+
+        // setup modal device selection
+
+        var modal = document.getElementById("device_selection");
+        var btn = document.getElementById('btn_start');
+        
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        
+
+        function makeMenu(selector, obj, value_callback)
+        {
+            let menu = document.querySelector(selector);
+            menu.innerHTML = "";
+/*
+            let el1 = document.createElement('option');
+            el1.value = "";
+            el1.innerHTML = "-- Select Audio Input --";
+            menu.appendChild(el1);
+*/
+            Object.keys(obj).forEach( key => {
+                let el = document.createElement('option');
+                el.value = key;
+                el.innerHTML = `${name}: ${key}`;
+                menu.appendChild(el);
+            });
+
+            menu.addEventListener('change', (event) => { 
+                value_callback( obj[event.target.value] );
+            });
+        }
+
+
+        btn.onclick = async () => {
+            modal.style.display = "block";
+            await getDevices();
+
+            console.log("after get");
+
+            makeMenu("#sel_video", videoInDevices, (val) => {
+                console.log('set video to ', val);
+                selectedVideoID = val;
+            });
+
+            makeMenu("#sel_audio", audioInDevcies, (val) => {
+                console.log('set audio to ', val);
+                selectedAudioID = val;
+            });
+            
+        }
+
+        let startBtn = document.getElementById('start_stream');
+        startBtn.onclick = async () => {
+            if( localMediaStream ){
+                localMediaStream = null;
+            }
+
+            try {
+                localMediaStream = await navigator.mediaDevices.getUserMedia({
+                    video: selectedVideoID == "default" ? true : { deviceId: selectedVideoID },
+                    audio: selectedAudioID == "default" ? true : { deviceId: selectedAudioID }
+                });
+
+            }
+            catch (e) {
+                console.error('start camera error', e);
+            }
+
+            await drawsocket.sendStream(localMediaStream);
+
+
+            const ret = await window.drawsocket.on_newLocalStream(localMediaStream);
+            if( ret != 1 )
+            {
+                defaultDisplay();
+            }
+            
+            modal.style.display = "none";
+        }
     })
 
 })();

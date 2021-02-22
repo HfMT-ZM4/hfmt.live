@@ -48,10 +48,10 @@
       <button id="btn_start">Start Webcam</button>
 
       <input multiple type="file" accept=".json,.html,.js,.svg" id="input_sendfile" style="display:none">
-      <button id="btn_sendfile">Share Score</button>
+      <button id="btn_sendfile">Share File</button>
 
       <select name="parts" id="select_part">
-          <option value="">-- no score loaded --</option>
+          <option value="">-- no file loaded --</option>
       </select> 
 
       <button id="btn_drawsocket">drawsocket-msg-out</button>
@@ -63,6 +63,23 @@
       <!--
       <button id="btn_screen">Share Screen</button>
    -->
+
+   <div id="device_selection" class="modal">
+      <div class="modal-content">
+          <span class="close">&times;</span>
+
+          <select name="sel_video" id="sel_video">
+              <option value="">-- video device list --</option>
+          </select> 
+          <select name="sel_audio" id="sel_audio">
+              <option value="">-- audio device list --</option>
+          </select> 
+
+          <button id="start_stream">Start Stream</button>
+
+      </div>
+
+  </div>
   </div>
 
 
