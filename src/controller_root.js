@@ -384,7 +384,7 @@ import * as drawsocket from './drawsocket-web';
     }
 
     // to do: set audio and video stream devices
-
+/*
     async function startStream() 
     {
         
@@ -413,7 +413,7 @@ import * as drawsocket from './drawsocket-web';
 
         // default display when 
     }
-
+*/
     window.drawsocket.startStream = startStream;
     window.drawsocket.joinRoom = soupclient.joinRoom;
 
@@ -696,7 +696,7 @@ import * as drawsocket from './drawsocket-web';
         console.log(mediaStream);
     }
 
-    async function newStartStream () {
+    async function startStream () {
 
         await getDevices();
 
