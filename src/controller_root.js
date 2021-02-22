@@ -806,7 +806,7 @@ import * as drawsocket from './drawsocket-web';
                 console.error('start camera error', e);
             }
 
-            await drawsocket.sendStream(localMediaStream);
+            await soupclient.sendStream(localMediaStream);
 
 
             const ret = await window.drawsocket.on_newLocalStream(localMediaStream);
