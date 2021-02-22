@@ -696,6 +696,42 @@ import * as drawsocket from './drawsocket-web';
         console.log(mediaStream);
     }
 
+    async function newStartStream () {
+
+        await getDevices();
+
+        const makeMenu = function(selector, obj, value_callback)
+        {
+            let menu = document.querySelector(selector);
+            menu.innerHTML = "";
+
+            Object.keys(obj).forEach( key => {
+                let el = document.createElement('option');
+                el.value = key;
+                el.innerHTML = `${name}: ${key}`;
+                menu.appendChild(el);
+            });
+
+            menu.addEventListener('change', (event) => { 
+                value_callback( obj[event.target.value] );
+            });
+        }
+
+
+        makeMenu("#sel_video", videoInDevices, (val) => {
+            console.log('set video to ', val);
+            selectedVideoID = val;
+        });
+
+        makeMenu("#sel_audio", audioInDevcies, (val) => {
+            console.log('set audio to ', val);
+            selectedAudioID = val;
+        });
+
+        document.getElementById("device_selection").style.display = "block";
+
+    }
+
     
     window.addEventListener('load', () => {
         $('#btn_connect').addEventListener('click', soupclient.joinRoom );
@@ -747,35 +783,30 @@ import * as drawsocket from './drawsocket-web';
             }
         }
         
+        /**
+         * this shoudl be the main start streams function
+         */
+        btn.onclick = newStartStream; /*async () => {
 
-        function makeMenu(selector, obj, value_callback)
-        {
-            let menu = document.querySelector(selector);
-            menu.innerHTML = "";
-/*
-            let el1 = document.createElement('option');
-            el1.value = "";
-            el1.innerHTML = "-- Select Audio Input --";
-            menu.appendChild(el1);
-*/
-            Object.keys(obj).forEach( key => {
-                let el = document.createElement('option');
-                el.value = key;
-                el.innerHTML = `${name}: ${key}`;
-                menu.appendChild(el);
-            });
-
-            menu.addEventListener('change', (event) => { 
-                value_callback( obj[event.target.value] );
-            });
-        }
-
-
-        btn.onclick = async () => {
-            modal.style.display = "block";
             await getDevices();
 
-            console.log("after get");
+            const makeMenu = function(selector, obj, value_callback)
+            {
+                let menu = document.querySelector(selector);
+                menu.innerHTML = "";
+
+                Object.keys(obj).forEach( key => {
+                    let el = document.createElement('option');
+                    el.value = key;
+                    el.innerHTML = `${name}: ${key}`;
+                    menu.appendChild(el);
+                });
+
+                menu.addEventListener('change', (event) => { 
+                    value_callback( obj[event.target.value] );
+                });
+            }
+
 
             makeMenu("#sel_video", videoInDevices, (val) => {
                 console.log('set video to ', val);
@@ -786,8 +817,11 @@ import * as drawsocket from './drawsocket-web';
                 console.log('set audio to ', val);
                 selectedAudioID = val;
             });
-            
+
+            document.getElementById("device_selection").style.display = "block";
+
         }
+        */
 
         let startBtn = document.getElementById('start_stream');
         startBtn.onclick = async () => {
