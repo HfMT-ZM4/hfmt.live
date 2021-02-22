@@ -801,7 +801,6 @@ import * as drawsocket from './drawsocket-web';
 
         checkURLArgs();
 
-        setupMax();
 
 
         // setup modal device selection
@@ -892,6 +891,8 @@ import * as drawsocket from './drawsocket-web';
             modal.style.display = "none";
         }
         */
+       
+       setupMax();
 
     })
 
