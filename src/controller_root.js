@@ -40,10 +40,13 @@ import * as drawsocket from './drawsocket-web';
     soupclient.init(socket);
     drawsocket.init(socket);
 
+    let localMediaStream;
+
     window.drawsocket = drawsocket;
     window.drawsocket.getMediaStreams = function(){ return soupclient.getStreams() };
 
     window.drawsocket.sendStream = async function(stream, kind) {
+        localMediaStream = stream;
         soupclient.sendStream(stream, kind);
         return 0;
     }
@@ -73,7 +76,6 @@ import * as drawsocket from './drawsocket-web';
     const hostname = window.location.hostname;
     const $ = document.querySelector.bind(document);
 
-    let localMediaStream;
 
     socket.on('room-message', (data) => {
         //console.log(data)
