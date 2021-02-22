@@ -241,7 +241,7 @@ import * as drawsocket from './drawsocket-web';
             menu.addEventListener('change', (event) => {            
                 if( type == 'text/html')
                 {               
-                    insertHTML(obj, $('#main-html') );
+                    insertHTML(obj, $('#forms') );
                 }
                 else if( type == 'text/js' )
                 {

@@ -4,13 +4,66 @@
     </head>
 <body>
 
+    <style>
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    </style>
+
+    <button id="queryDevices">Select IO Devices</button>
+        <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Some text in the Modal..</p>
+        </div>
+    
+    </div>
+
     <script>
 
-        let localMediaStream;
+        let localMediaStream = null;
         let audioID = "default", videoID = "default";
 
-        let audioDevcies = {};
-        let videoDevices = {};
+        let audioInDevcies = {};
+        let videoInDevices = {};
 
         async function getDevices () {
 
@@ -28,30 +81,51 @@
 
                 devices.forEach(function(device) {
 
+                    if( device.kind == "audioinput" )
+                    {
+                        audioInDevcies[device.label] = device.deviceId;
+                    }
+                    else if(device.kind == "videoinput" )
+                    {
+                        videoInDevices[device.label] = device.deviceId;
+
+                    }
                         console.log(device.kind + ": " + device.label +
                                     " id = " + device.deviceId);
                 });
                 
             }
             catch (e) {
-                console.error('start camera error', e);
+                console.error('start media streams error', e);
+                return;
             }
 
             console.log(localMediaStream);
         }
 
-        drawsocket.input({
-            key: "html",
-            val: {
-                new: "button",
-                id: "queryDevices",
-                parent: "forms",
-                text: "Select IO Devices",
-                onclick: "getDevices()"
-            }
-        })
 
-        //document.getElementById('queryDevices').addEventListener('click', getDevices )
+        var modal = document.getElementById("myModal");
+
+        // Get the <span> element that closes the modal
+
+        var btn = document.getElementById('queryDevices');
+        btn.onclick = function() {
+            modal.style.display = "block";
+            getDevices();
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
 
     </script>
 </body>
