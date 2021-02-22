@@ -650,6 +650,15 @@ import * as drawsocket from './drawsocket-web';
     }
 
 
+    function outToMax(obj)
+    {
+        if( typeof window.max !== "undefined" )
+        {
+            window.max.outlet("test", JSON.stringify(obj) );
+        }
+    }
+
+
     let audioInDevcies = {};
     let videoInDevices = {};
 
@@ -772,6 +781,10 @@ import * as drawsocket from './drawsocket-web';
 
     
     window.addEventListener('load', () => {
+
+        outToMax({ hi: "hello!" });
+
+
         $('#btn_connect').addEventListener('click', soupclient.joinRoom );
        // $('#btn_start').addEventListener('click', startStream); // << this should maybe be in the soupclient...
         
@@ -894,7 +907,6 @@ import * as drawsocket from './drawsocket-web';
 
        setupMax();
 
-       window.max.outlet("test", JSON.stringify({ hi: "hello!" }));
 
     })
 
