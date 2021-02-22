@@ -622,7 +622,7 @@ import * as drawsocket from './drawsocket-web';
             window.max.bindInlet('drawsocket', function (a) {
                 try {
                     const obj = JSON.parse(a);
-                    drawsocket_input(obj);
+                    drawsocket.input(obj);
                     window.max.outlet("received", a);
                 }
                 catch(err)
