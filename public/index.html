@@ -64,7 +64,17 @@
       <button id="btn_screen">Share Screen</button>
    -->
 
-   <div id="device_selection" class="modal">
+  </div>
+
+
+    <!-- local video -->
+    <div id="local_ui">
+        <video id="localVideo" autoplay playsinline muted></video>
+        <div id="camera-info"></div>
+        <canvas id="oscilloscope"></canvas>   
+    </div>
+
+    <div id="device_selection" class="modal">
       <div class="modal-content">
           <span class="close">&times;</span>
 
@@ -78,17 +88,8 @@
           <button id="start_stream">Start Stream</button>
 
       </div>
-
-  </div>
-  </div>
-
-
-    <!-- local video -->
-    <div id="local_ui">
-        <video id="localVideo" autoplay playsinline muted></video>
-        <div id="camera-info"></div>
-        <canvas id="oscilloscope"></canvas>   
     </div>
+
 
   <script>
       window.localStorage.setItem('debug', 'mediasoup-client:WARN* mediasoup-client:ERROR*');
