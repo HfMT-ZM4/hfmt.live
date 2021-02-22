@@ -209,6 +209,16 @@ export async function pauseVideoSend(){
     pauseProducer(camVideoProducer);
 }
 
+export async function resumeAudioSend()
+{
+    resumeProducer(camAudioProducer);
+}
+
+export async function resumeVideoSend()
+{
+    resumeProducer(camVideoProducer);
+}
+
 export function on_joinedRoom() {}
 
 export function on_removedPeerStream(_id) {}

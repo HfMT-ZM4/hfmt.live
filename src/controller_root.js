@@ -63,9 +63,12 @@ import * as drawsocket from './drawsocket-web';
     }
 
     window.drawsocket.pauseVideoSend = soupclient.pauseVideoSend;
-    window.drawsocket.pauseAudioSend = soupclient.pauseAudioSend;
-    window.drawsocket.leaveRoom = soupclient.leaveRoom;
+    window.drawsocket.resumeVideoSend = soupclient.resumeVideoSend;
 
+    window.drawsocket.pauseAudioSend = soupclient.pauseAudioSend;
+    window.drawsocket.resumeAudioSend = soupclient.resumeAudioSend;
+
+    window.drawsocket.leaveRoom = soupclient.leaveRoom;
 
     const hostname = window.location.hostname;
     const $ = document.querySelector.bind(document);
