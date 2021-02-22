@@ -52,12 +52,21 @@
         <!-- Modal content -->
         <div class="modal-content">
         <span class="close">&times;</span>
-        <p>Some text in the Modal..</p>
+
+        <select name="sel_audio" id="sel_audio">
+            <option value="">-- no score loaded --</option>
+        </select> 
+        <select name="sel_video" id="sel_video">
+            <option value="">-- no score loaded --</option>
+        </select> 
+
         </div>
     
     </div>
 
     <script>
+
+        const $ = document.querySelector;
 
         let localMediaStream = null;
         let audioID = "default", videoID = "default";
@@ -109,11 +118,7 @@
         // Get the <span> element that closes the modal
 
         var btn = document.getElementById('queryDevices');
-        btn.onclick = function() {
-            modal.style.display = "block";
-            getDevices();
-        }
-
+        
         // When the user clicks on <span> (x), close the modal
         var span = document.getElementsByClassName("close")[0];
         span.onclick = function() {
@@ -126,6 +131,49 @@
                 modal.style.display = "none";
             }
         }
+
+
+
+        function makeMenu(selector, obj, value_callback)
+        {
+            let menu = document.querySelector('#selector');
+            menu.innerHTML = "";
+
+            let el1 = document.createElement('option');
+            el1.value = "";
+            el1.innerHTML = "-- Select Audio Input --";
+            menu.appendChild(el1);
+
+            Object.keys(obj).forEach( key => {
+                let el = document.createElement('option');
+                el.value = key;
+                el.innerHTML = `${name}: ${key}`;
+                audio_menu.appendChild(el);
+            });
+
+            menu.addEventListener('change', (event) => { 
+                value_callback( obj[event.target.value] );
+            });
+        }
+
+
+        btn.onclick = async () => {
+            modal.style.display = "block";
+            await getDevices();
+
+            makeMenu("#sel_video", videoInDevices, (val) => {
+                console.log('set video to ', val);
+            });
+
+            makeMenu("#sel_audioi", audioInDevcies, (val) => {
+                console.log('set audio to ', val);
+            });
+           
+            
+        }
+
+
+
 
     </script>
 </body>
