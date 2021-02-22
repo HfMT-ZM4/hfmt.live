@@ -782,7 +782,7 @@ import * as drawsocket from './drawsocket-web';
     
     window.addEventListener('load', () => {
 
-        outToMax({ hi: "hello!" });
+       // outToMax({ hi: "hello!" });
 
 
         $('#btn_connect').addEventListener('click', soupclient.joinRoom );
