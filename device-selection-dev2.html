@@ -66,7 +66,7 @@
 
     <script>
 
-        let localMediaStream = null;
+        let medi = null;
         let audioID = "default", videoID = "default";
 
         let audioInDevcies = {};
@@ -74,12 +74,12 @@
 
         async function getDevices () {
 
-            if (localMediaStream)
+            if (mediaStream)
                 return;
 
             try {
 
-                localMediaStream = await navigator.mediaDevices.getUserMedia({
+                mediaStream = await navigator.mediaDevices.getUserMedia({
                     video: true,
                     audio: true
                 });
@@ -110,7 +110,7 @@
                 return;
             }
 
-            console.log(localMediaStream);
+            console.log(mediaStream);
         }
 
 
