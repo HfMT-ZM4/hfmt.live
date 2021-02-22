@@ -600,7 +600,7 @@ import * as drawsocket from './drawsocket-web';
                 }
                 else if( _filetype == 'html' )
                 {
-                    insertHTML(_fileContent, $('#main-html') );
+                    insertHTML(_fileContent, $('#forms') );
                 }
 
             }).catch(err =>
