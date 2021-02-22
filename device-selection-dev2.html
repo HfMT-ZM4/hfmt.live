@@ -193,10 +193,10 @@
                 console.error('start camera error', e);
             }
 
-            await soupclient.sendStream(localMediaStream);
+            await drawsocket.sendStream(localMediaStream);
 
 
-            const ret = await window.drawsocket.on_newLocalStream(localMediaStream);
+            const ret = await drawsocket.on_newLocalStream(localMediaStream);
             if( ret != 1 )
             {
                 defaultDisplay();
