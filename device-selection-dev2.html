@@ -4,9 +4,6 @@
     </head>
 <body>
 
-
-    <button id="queryDevices">Start Webcam</button>
-
     <script>
 
         let localMediaStream;
@@ -43,8 +40,18 @@
             console.log(localMediaStream);
         }
 
+        drawsocket.input({
+            key: "html",
+            val: {
+                new: "button",
+                id: "queryDevices",
+                parent: "forms",
+                text: "Select IO Devices",
+                onclick: getDevices
+            }
+        })
 
-        document.getElementById('queryDevices').addEventListener('click', getDevices )
+        //document.getElementById('queryDevices').addEventListener('click', getDevices )
 
     </script>
 </body>
