@@ -62,7 +62,9 @@ import * as drawsocket from './drawsocket-web';
         return 0;
     }
 
-
+    window.drawsocket.pauseVideoSend = soupclient.pauseVideoSend;
+    window.drawsocket.pauseAudioSend = soupclient.pauseAudioSend;
+    window.drawsocket.leaveRoom = soupclient.leaveRoom;
 
 
     const hostname = window.location.hostname;
