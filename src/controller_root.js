@@ -731,7 +731,10 @@ import * as drawsocket from './drawsocket-web';
             selectedAudioID = val;
         });
 
-        document.getElementById("device_selection").style.display = "block";
+        let div = document.getElementById("device_selection");
+
+        document.appendChild(div);
+        div.style.display = "block";
 
     }
 
