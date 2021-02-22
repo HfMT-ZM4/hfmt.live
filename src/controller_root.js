@@ -891,8 +891,10 @@ import * as drawsocket from './drawsocket-web';
             modal.style.display = "none";
         }
         */
-       
+
        setupMax();
+
+       window.max.outlet("test", JSON.stringify({ hi: "hello!" }));
 
     })
 
