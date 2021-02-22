@@ -53,11 +53,11 @@
         <div class="modal-content">
             <span class="close">&times;</span>
 
-            <select name="sel_audio" id="sel_audio">
-                <option value="">-- no score loaded --</option>
-            </select> 
             <select name="sel_video" id="sel_video">
-                <option value="">-- no score loaded --</option>
+                <option value="">-- video device list --</option>
+            </select> 
+            <select name="sel_audio" id="sel_audio">
+                <option value="">-- audio device list --</option>
             </select> 
 
             <button id="start_stream">Start Stream</button>
@@ -137,12 +137,12 @@
         {
             let menu = document.querySelector(selector);
             menu.innerHTML = "";
-
+/*
             let el1 = document.createElement('option');
             el1.value = "";
             el1.innerHTML = "-- Select Audio Input --";
             menu.appendChild(el1);
-
+*/
             Object.keys(obj).forEach( key => {
                 let el = document.createElement('option');
                 el.value = key;
