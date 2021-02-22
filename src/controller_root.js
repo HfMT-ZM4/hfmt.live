@@ -733,7 +733,7 @@ import * as drawsocket from './drawsocket-web';
 
         let div = document.getElementById("device_selection");
 
-      //  document.body.appendChild(div);
+        document.body.appendChild(div);
         div.style.display = "block";
 
     }

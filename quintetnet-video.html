@@ -7,7 +7,7 @@
         }
     
         /* Buttons styles start */
-        button {
+        .quintet_btn {
             display: inline-block;
             border: none;
             margin: 0;
@@ -24,17 +24,17 @@
             -moz-appearance: none;
         }
 
-        button:hover,
-        button:focus {
+        .quintet_btn:hover,
+        .quintet_btn:focus {
             background: #0053ba;
         }
 
-        button:focus {
+        .quintet_btn:focus {
             outline: 1px solid #fff;
             outline-offset: -4px;
         }
 
-        button:active {
+        .quintet_btn:active {
             transform: scale(0.99);
         }
         /* Button styles end */
@@ -65,8 +65,8 @@
         }
     
     </style>
-    <button id="startbutton">start stream</button> 
-    <button id="mutebutton">mute</button> 
+    <button class="quintet_btn" id="startbutton">start stream</button> 
+    <button class="quintet_btn" id="mutebutton">mute</button> 
     <video id="quintetnet-local" autoplay playsinline muted></video>
     <video id="quintetnet-1" autoplay playsinline muted></video>
     <video id="quintetnet-2" autoplay playsinline muted></video>
