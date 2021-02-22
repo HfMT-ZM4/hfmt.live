@@ -51,14 +51,16 @@
 
         <!-- Modal content -->
         <div class="modal-content">
-        <span class="close">&times;</span>
+            <span class="close">&times;</span>
 
-        <select name="sel_audio" id="sel_audio">
-            <option value="">-- no score loaded --</option>
-        </select> 
-        <select name="sel_video" id="sel_video">
-            <option value="">-- no score loaded --</option>
-        </select> 
+            <select name="sel_audio" id="sel_audio">
+                <option value="">-- no score loaded --</option>
+            </select> 
+            <select name="sel_video" id="sel_video">
+                <option value="">-- no score loaded --</option>
+            </select> 
+
+            <button id="start_stream">Start Stream</button>
 
         </div>
     
@@ -69,6 +71,9 @@
 
         let audioInDevcies = {};
         let videoInDevices = {};
+
+        let selectedAudioID = "default";
+        let selectedVideoID = "default";
 
         async function getDevices () {
 
@@ -112,12 +117,8 @@
 
 
         var modal = document.getElementById("myModal");
-
-        // Get the <span> element that closes the modal
-
         var btn = document.getElementById('queryDevices');
         
-        // When the user clicks on <span> (x), close the modal
         var span = document.getElementsByClassName("close")[0];
         span.onclick = function() {
             modal.style.display = "none";
@@ -163,15 +164,45 @@
 
             makeMenu("#sel_video", videoInDevices, (val) => {
                 console.log('set video to ', val);
+                selectedVideoID = val;
             });
 
             makeMenu("#sel_audio", audioInDevcies, (val) => {
                 console.log('set audio to ', val);
+                selectedAudioID = val;
             });
-           
             
         }
 
+
+        let startBtn = document.getElementById('start_stream');
+        startBtn.onclick = async () => {
+            if( localMediaStream ){
+                localMediaStream = null;
+            }
+
+            try {
+                localMediaStream = await navigator.mediaDevices.getUserMedia({
+                    video: selectedVideoID == "default" ? true : { deviceId: selectedVideoID },
+                    audio: selectedAudioID == "default" ? true : { deviceId: selectedAudioID }
+                });
+
+            }
+            catch (e) {
+                console.error('start camera error', e);
+            }
+
+            await soupclient.sendStream(localMediaStream);
+
+
+            const ret = await window.drawsocket.on_newLocalStream(localMediaStream);
+            if( ret != 1 )
+            {
+                defaultDisplay();
+            }
+            
+            modal.style.display = "none";
+        }
 
 
 
