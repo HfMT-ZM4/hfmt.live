@@ -414,7 +414,7 @@ import * as drawsocket from './drawsocket-web';
         // default display when 
     }
 */
-    window.drawsocket.startStream = startStream;
+    window.drawsocket.startStream = deviceSelectionWindow;
     window.drawsocket.joinRoom = soupclient.joinRoom;
 
     async function defaultDisplay()
@@ -696,7 +696,10 @@ import * as drawsocket from './drawsocket-web';
         console.log(mediaStream);
     }
 
-    async function startStream () {
+    /**
+     * open start stream modal window
+     */
+    async function deviceSelectionWindow () {
 
         await getDevices();
 
@@ -730,6 +733,38 @@ import * as drawsocket from './drawsocket-web';
 
         document.getElementById("device_selection").style.display = "block";
 
+    }
+
+    /**
+     * called from device selection modal window
+     */
+    async function startSelectedStream()
+    {
+        if( localMediaStream ){
+            localMediaStream = null;
+        }
+
+        try {
+            localMediaStream = await navigator.mediaDevices.getUserMedia({
+                video: selectedVideoID == "default" ? true : { deviceId: selectedVideoID },
+                audio: selectedAudioID == "default" ? true : { deviceId: selectedAudioID }
+            });
+
+        }
+        catch (e) {
+            console.error('start camera error', e);
+        }
+
+        await soupclient.sendStream(localMediaStream);
+
+
+        const ret = await window.drawsocket.on_newLocalStream(localMediaStream);
+        if( ret != 1 )
+        {
+            defaultDisplay();
+        }
+        
+        document.getElementById("device_selection").style.display = "none";
     }
 
     
@@ -769,7 +804,6 @@ import * as drawsocket from './drawsocket-web';
         // setup modal device selection
 
         var modal = document.getElementById("device_selection");
-        var btn = document.getElementById('btn_start');
         
         var span = document.getElementsByClassName("close")[0];
         span.onclick = function() {
@@ -786,7 +820,8 @@ import * as drawsocket from './drawsocket-web';
         /**
          * this shoudl be the main start streams function
          */
-        btn.onclick = newStartStream; /*async () => {
+        document.getElementById('btn_start').onclick = deviceSelectionWindow; 
+        /*async () => {
 
             await getDevices();
 
@@ -824,7 +859,9 @@ import * as drawsocket from './drawsocket-web';
         */
 
         let startBtn = document.getElementById('start_stream');
-        startBtn.onclick = async () => {
+        startBtn.onclick = startSelectedStream;
+        /*
+        async () => {
             if( localMediaStream ){
                 localMediaStream = null;
             }
@@ -851,6 +888,8 @@ import * as drawsocket from './drawsocket-web';
             
             modal.style.display = "none";
         }
+        */
+
     })
 
 })();
