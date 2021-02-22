@@ -438,6 +438,7 @@ import * as drawsocket from './drawsocket-web';
 
     }
 
+    window.drawsocket.defaultDisplay = defaultDisplay;
 
     async function showCameraInfo() 
     {

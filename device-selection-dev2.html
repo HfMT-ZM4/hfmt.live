@@ -199,7 +199,7 @@
             const ret = await drawsocket.on_newLocalStream(localMediaStream);
             if( ret != 1 )
             {
-                defaultDisplay();
+                drawsocket.defaultDisplay();
             }
             
             modal.style.display = "none";
