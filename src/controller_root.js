@@ -652,6 +652,40 @@ import * as drawsocket from './drawsocket-web';
                     window.max.outlet("error", JSON.stringify(err));
                 }
             });
+
+            window.max.bindInlet('route', function (a) {
+                try {
+                    const obj = JSON.parse(a);
+                    let delegate = {};
+
+                    Object.keys(obj).forEach( key => {
+                        if( key == usr_id || key == "*" )
+                        {
+                            let subObj = obj[key];
+                            subObj.timetag = Date.now();
+
+                            drawsocket.input({
+                                subObj
+                            })
+                        }
+                        else
+                        {
+                            delegate[key] = obj[key];
+                            delegate[key].timetag = Date.now();
+                        }
+                    })
+
+                    // match this ID or * and broadcast any other messages
+                    if( Object.keys(delegate).length > 0 ){
+                        socket.emit('room-message',
+                            delegate        
+                        );
+                    }
+                }
+                catch(err)
+                {
+                    window.max.outlet("error", JSON.stringify(err));
+                }
         }
 
     }
