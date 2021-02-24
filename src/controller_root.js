@@ -663,7 +663,7 @@ import * as drawsocket from './drawsocket-web';
                         {
                             let subObj = obj[key];
                             subObj.timetag = Date.now();
-
+                            console.log(subObj);
                             drawsocket.input({
                                 subObj
                             })
