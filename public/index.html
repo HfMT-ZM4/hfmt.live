@@ -43,23 +43,26 @@
   </div>
 
   <!-- control panel -->
-  <div id="default_ui" class="ui">
-      <button id="btn_connect">Connect</button>
-      <button id="btn_start">Start Webcam</button>
+    <div id="default_ui">
+        <img src="icons/video-solid.svg" id="video_icon" class="icon"  />
+        <div id="stream_button_div" class="ui">
+            <button id="btn_connect">Connect</button>
+            <button id="btn_start">Start Webcam</button>
+        </div>
+        <div id="file_buttons" class="ui">
+            <input multiple type="file" accept=".json,.html,.js,.svg" id="input_sendfile" style="display:none">
+            <button id="btn_sendfile">Share File</button>
+            <select name="parts" id="select_part">
+                <option value="">-- no file loaded --</option>
+            </select>
+            <button id="btn_drawsocket">drawsocket-msg-out</button>
 
-      <input multiple type="file" accept=".json,.html,.js,.svg" id="input_sendfile" style="display:none">
-      <button id="btn_sendfile">Share File</button>
-
-      <select name="parts" id="select_part">
-          <option value="">-- no file loaded --</option>
-      </select> 
-
-      <button id="btn_drawsocket">drawsocket-msg-out</button>
-
-      <div id="message_panel" style="display: none;" >
-          <textarea id="drawsocket_output_text"></textarea>
-          <button id="btn_drawsocket_send">send</button>
-      </div>
+            <div id="message_panel" style="display: none;">
+                <textarea id="drawsocket_output_text"></textarea>
+                <button id="btn_drawsocket_send">send</button>
+            </div>
+        </div>
+    </div>
       <!--
       <button id="btn_screen">Share Screen</button>
    -->
@@ -103,7 +106,22 @@
   <script src="https://hfmt.live/scripts/socket.io-client/dist/socket.io.js"></script>
   <script src="https://hfmt.live/js/socket-ping.js"></script>
   -->
-  <script src="https://hfmt.live/js/root.drawsocket.bundle.js"></script>
+  <script>
+        let video_icon = document.getElementById("video_icon");
+        video_icon.addEventListener("click", () => {
+            console.log("click");
 
+            let streamDiv = document.getElementById('stream_button_div');
+            streamDiv.style.display = "inline-block";
+            /*
+            window.onclick = function(event) {
+                if (event.target != streamDiv) {
+                    streamDiv.style.display = "none";
+                }
+            }
+            */
+        });
+  </script>
+  <script src="https://hfmt.live/js/root.drawsocket.bundle.js"></script>
 </body>
 </html>

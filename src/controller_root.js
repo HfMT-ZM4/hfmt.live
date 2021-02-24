@@ -838,7 +838,21 @@ import * as drawsocket from './drawsocket-web';
     window.addEventListener('load', () => {
 
        // outToMax({ hi: "hello!" });
+        let video_icon = document.getElementById("video_icon");
+        video_icon.addEventListener("click", () => {
+            console.log("click");
 
+            let streamDiv = $('#stream_button_div');
+            streamDiv.style.display = "inline-block";
+            window.onclick = function(event) {
+                if (event.target != streamDiv) {
+                    streamDiv.style.display = "none";
+                }
+            }
+        });
+            
+
+        console.log(document.getElementById("video_icon"));
 
         $('#btn_connect').addEventListener('click', soupclient.joinRoom );
        // $('#btn_start').addEventListener('click', startStream); // << this should maybe be in the soupclient...
