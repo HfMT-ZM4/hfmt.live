@@ -1605,7 +1605,7 @@ let input_listener = null;// = function(key, obj_arr) {};
 
 function drawsocket_input(obj) {
   //  const keys = Object.keys(obj);
-  console.log("keys", keys);
+  //console.log("keys", keys);
   let iter_obj_arr;
 
   let toplevel_timetag;
@@ -1617,7 +1617,7 @@ function drawsocket_input(obj) {
     iter_obj_arr = obj;
 
 
-    console.log('iter_obj_arr', iter_obj_arr);
+  //  console.log(iter_obj_arr);
 
   let wasHandled = true;
 
