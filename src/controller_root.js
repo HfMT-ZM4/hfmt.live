@@ -100,9 +100,19 @@ import * as drawsocket from './drawsocket-web';
 
             }
         }
+        else if( typeof data["*"] != "undefined" )
+        {
+            drawsocket.input(data["*"]);
+        }
         else if( typeof data[usr_id] != "undefined" )
         {
+            // also process wildcard in this case
+            if( typeof data["*"] != "undefined" ){
+                drawsocket.input(data["*"]);
+            }
+
             drawsocket.input(data[usr_id]);
+        
         }
         else
         {
@@ -664,6 +674,12 @@ import * as drawsocket from './drawsocket-web';
                             drawsocket.input(
                                 subObj
                             )
+
+                            if( key == "*")
+                            {
+                                delegate[key] = subObj;
+                            }
+
                         }
                         else
                         {
