@@ -673,10 +673,10 @@ import * as drawsocket from './drawsocket-web';
                             delegate[key] = obj[key];
                             delegate[key].timetag = Date.now();
                         }
-                    })
+                    });
 
                     // match this ID or * and broadcast any other messages
-                    if( Object.keys(delegate).length > 0 ){
+                    if( Object.keys(delegate).length > 0 ) {
                         socket.emit('room-message',
                             delegate        
                         );
@@ -686,6 +686,7 @@ import * as drawsocket from './drawsocket-web';
                 {
                     window.max.outlet("error", JSON.stringify(err));
                 }
+            });
         }
 
     }
