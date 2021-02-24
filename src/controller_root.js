@@ -121,7 +121,7 @@ import * as drawsocket from './drawsocket-web';
 
         if( typeof window.max != "undefined" )
         {
-            window.max.outlet("messageIn", JSON.stringify(data));
+          ;//  window.max.outlet("messageIn", JSON.stringify(data));
         }
     });
 
