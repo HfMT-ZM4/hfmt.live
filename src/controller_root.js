@@ -25,14 +25,14 @@ import * as drawsocket from './drawsocket-web';
 
 
     let url_args = new URLSearchParams(window.location.search);      
-    let usrArg = url_args.get('id');  
-    if( usrArg )
-        console.log( `socket with custom usr arg ${usrArg}, args ${url_args}`);
+    let usr_id = url_args.get('id');  
+    if( usr_id )
+        console.log( `socket with custom usr arg ${usr_id}, args ${url_args}`);
 
 
     const socket = io(oscprefix, { 
         query: {    
-            userId: usrArg
+            userId: usr_id
         }
     });
     //const socket = io();
@@ -98,6 +98,13 @@ import * as drawsocket from './drawsocket-web';
                     processFile( file.name, str , file.type );
                 }
 
+            }
+        }
+        else if( typeof data.id != "undefined" )
+        {
+            if( data.id == usr_id )
+            {
+                drawsocket.input(data);
             }
         }
         else
