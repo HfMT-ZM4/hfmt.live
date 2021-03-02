@@ -2542,9 +2542,18 @@ class PDFdoc {
 
 function sendMsg(_obj) {
   if (socket) {
+    /*
     socket.emit('message', _obj);
     //port.sendObj(_obj);
   }
+  */
+}
+
+function sendRoomMessage(_obj) {
+  if (socket) {
+    socket.emit('room-message', _obj);
+  }
+
 }
 
 function setInputListener(cb_fn) {
@@ -2685,6 +2694,7 @@ export {
   ts as sync,
   drawsocket_input as input,
   sendMsg as send,
+  sendRoomMessage,
   oscprefix as url,
   startAudio,
   setInputListener,
