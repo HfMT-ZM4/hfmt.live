@@ -23,3 +23,7 @@ If you have a deviceId from mediaDevices.enumerateDevices(),
 you can use it to request a specific device:
 
 { video: { deviceId: myPreferredCameraDeviceId } }
+
+
+>> new version of UI
+    more modern UI, also don't display until after URL args have been parsed

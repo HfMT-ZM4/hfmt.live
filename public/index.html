@@ -49,6 +49,7 @@
             <button id="btn_connect">Connect</button>
             <button id="btn_start">Start Webcam</button>
         </div>
+        <img src="icons/file-import-solid.svg" id="file_icon" class="icon"  />
         <div id="file_buttons" class="ui">
             <input multiple type="file" accept=".json,.html,.js,.svg" id="input_sendfile" style="display:none">
             <button id="btn_sendfile">Share File</button>
@@ -107,20 +108,37 @@
   <script src="https://hfmt.live/js/socket-ping.js"></script>
   -->
   <script>
+
+
+
         let video_icon = document.getElementById("video_icon");
-        video_icon.addEventListener("click", () => {
-            console.log("click");
+        video_icon.addEventListener("click", (event) => {
+//            console.log("click", event);
 
             let streamDiv = document.getElementById('stream_button_div');
             streamDiv.style.display = "inline-block";
-            /*
-            window.onclick = function(event) {
-                if (event.target != streamDiv) {
-                    streamDiv.style.display = "none";
-                }
+
+            video_icon.classList.add("selected");
+
+            window.addEventListener("click", click_exitUI, true );
+
+        }, false);
+
+        function click_exitUI(event)
+        {
+            if( !event.target.closest('div').classList.contains("ui") ) 
+            {
+                document.querySelectorAll(".ui").forEach( el => el.style.display = "none" );
+                window.removeEventListener("click", click_exitUI, true );
             }
-            */
-        });
+
+            document.querySelectorAll(".selected").forEach( el => el.classList.remove("selected") );
+
+        }
+
+        document.querySelectorAll(".ui button").forEach( b => b.addEventListener("click", click_exitUI, true ) );
+
+
   </script>
   <script src="https://hfmt.live/js/root.drawsocket.bundle.js"></script>
 </body>

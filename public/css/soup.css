@@ -1,23 +1,48 @@
 .icon {
-    position: fixed;
+    position: relative;
     top: 0px;
     left: 0px;
     height: 14px;
     margin: 5px 0px 0px 5px;
     opacity: 0.2;
+    z-index: 1000;
 }
 
 .icon:hover {
     opacity: 1;
 }
 
+.selected {
+    opacity: 1;
+}
+
+#default_ui {
+    width: 100%;
+}
+
 .ui {
     position: absolute;
-    top: 0px;
-    left: 0px;
-    z-index: 10;
+    top: 25px;
+    left: 5px;
+    z-index: 1000;
     height: 20px;
     display: none; /*inline-block; */
+}
+
+.ui button {
+    background-color: gray; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    width: 125px;
+    height: 30px;
+}
+
+.ui button:hover {
+    background-color: black;
 }
 
 #videos {
