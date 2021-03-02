@@ -2541,8 +2541,8 @@ class PDFdoc {
 }
 
 function sendMsg(_obj) {
+     /*
   if (socket) {
-    /*
     socket.emit('message', _obj);
     //port.sendObj(_obj);
   }
