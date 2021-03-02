@@ -1723,6 +1723,12 @@ function drawsocket_input(obj) {
         }
         break;
 
+
+      case "maxOutput":
+        maxOutput(objValue);
+        break;
+      break;
+
       case "css":
         if (objValue === "clear") {
           clearCSS();
@@ -2553,7 +2559,14 @@ function sendRoomMessage(_obj) {
   if (socket) {
     socket.emit('room-message', _obj);
   }
+}
 
+function maxOutput(_obj)
+{
+  if( typeof window.max != "undefined" )
+  {
+    window.max.outlet("message", JSON.stringify(_obj));
+  }
 }
 
 function setInputListener(cb_fn) {
@@ -2695,6 +2708,7 @@ export {
   drawsocket_input as input,
   sendMsg as send,
   sendRoomMessage,
+  maxOutput,
   oscprefix as url,
   startAudio,
   setInputListener,
