@@ -111,34 +111,6 @@
 
 
 
-        let video_icon = document.getElementById("video_icon");
-        video_icon.addEventListener("click", (event) => {
-//            console.log("click", event);
-
-            let streamDiv = document.getElementById('stream_button_div');
-            streamDiv.style.display = "inline-block";
-
-            video_icon.classList.add("selected");
-
-            window.addEventListener("click", click_exitUI, true );
-
-        }, false);
-
-        function click_exitUI(event)
-        {
-            if( !event.target.closest('div').classList.contains("ui") ) 
-            {
-                document.querySelectorAll(".ui").forEach( el => el.style.display = "none" );
-                window.removeEventListener("click", click_exitUI, true );
-            }
-
-            document.querySelectorAll(".selected").forEach( el => el.classList.remove("selected") );
-
-        }
-
-        document.querySelectorAll(".ui button").forEach( b => b.addEventListener("click", click_exitUI, true ) );
-
-
   </script>
   <script src="https://hfmt.live/js/root.drawsocket.bundle.js"></script>
 </body>

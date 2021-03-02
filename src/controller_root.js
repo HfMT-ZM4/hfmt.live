@@ -566,65 +566,63 @@ import * as drawsocket from './drawsocket-web';
             console.log(Array.from(url_args.keys()).length);
         }
 
-        // if we have no URL arguments, then we can go forward with websockets,
-        // otherwise, don't make a socket, but prepare the read message for the json file fetch
         if( url_args.has("get") ) 
         {
         
-        let _val = {
-            fetch: url_args.get("get")
-        };
-    
-        if (url_args.has("prefix")) 
-        {
-            _val.prefix = url_args.get("prefix");
-
-            console.log({
-                key: "file",
-                val: _val
-            });
+            let _val = {
+                fetch: url_args.get("get")
+            };
         
-            drawsocket.input({
-                key: "file",
-                val: _val
-            });
-        
-        }
-        else
-        {
-            const _filetype = _val.fetch.endsWith('json') ? 'json' : (_val.fetch.endsWith('html') ? 'html' : null);
+            if (url_args.has("prefix")) 
+            {
+                _val.prefix = url_args.get("prefix");
 
-            fetch(_val.fetch).then(function (response) {
-                try {
-                    console.log(response);
-                    if ( _filetype == 'json' ) {
-                        return response.json()
+                console.log({
+                    key: "file",
+                    val: _val
+                });
+            
+                drawsocket.input({
+                    key: "file",
+                    val: _val
+                });
+            
+            }
+            else
+            {
+                const _filetype = _val.fetch.endsWith('json') ? 'json' : (_val.fetch.endsWith('html') ? 'html' : null);
+
+                fetch(_val.fetch).then(function (response) {
+                    try {
+                        console.log(response);
+                        if ( _filetype == 'json' ) {
+                            return response.json()
+                        }
+                        else if ( _filetype == 'html') {
+                            return response.text();
+                        }
+
                     }
-                    else if ( _filetype == 'html') {
-                        return response.text();
+                    catch (err) {
+                        console.log('caught error:', err);
                     }
 
-                }
-                catch (err) {
-                    console.log('caught error:', err);
-                }
+                    return;
+                }).then(function (_fileContent) {
 
-                return;
-            }).then(function (_fileContent) {
+                    if( _filetype == 'json' ){
+                        processFile(name, _fileContent, 'drawsocket');
+                    }
+                    else if( _filetype == 'html' )
+                    {
+                        insertHTML(_fileContent, $('#forms') );
+                    }
 
-                if( _filetype == 'json' ){
-                    processFile(name, _fileContent, 'drawsocket');
-                }
-                else if( _filetype == 'html' )
-                {
-                    insertHTML(_fileContent, $('#forms') );
-                }
+                }).catch(err =>
+                    console.error(`fetch error ${err}`)
+                );
 
-            }).catch(err =>
-                console.error(`fetch error ${err}`)
-            );
-
-        }
+            }
         
         }
     }
@@ -881,9 +879,39 @@ import * as drawsocket from './drawsocket-web';
 
         window.addEventListener('unload', soupclient.leaveRoom);
 
+
+
+
+        let video_icon = document.getElementById("video_icon");
+        video_icon.addEventListener("click", (event) => {
+//            console.log("click", event);
+
+            let streamDiv = document.getElementById('stream_button_div');
+            streamDiv.style.display = "inline-block";
+
+            video_icon.classList.add("selected");
+
+            window.addEventListener("click", click_exitUI, true );
+
+        }, false);
+
+        function click_exitUI(event)
+        {
+            if( !event.target.closest('div').classList.contains("ui") ) 
+            {
+                document.querySelectorAll(".ui").forEach( el => el.style.display = "none" );
+                window.removeEventListener("click", click_exitUI, true );
+            }
+
+            document.querySelectorAll(".selected").forEach( el => el.classList.remove("selected") );
+
+        }
+
+        document.querySelectorAll(".ui button").forEach( b => b.addEventListener("click", click_exitUI, true ) );
+
+
+
         checkURLArgs();
-
-
 
         // setup modal device selection
 
@@ -905,75 +933,10 @@ import * as drawsocket from './drawsocket-web';
          * this shoudl be the main start streams function
          */
         document.getElementById('btn_start').onclick = deviceSelectionWindow; 
-        /*async () => {
-
-            await getDevices();
-
-            const makeMenu = function(selector, obj, value_callback)
-            {
-                let menu = document.querySelector(selector);
-                menu.innerHTML = "";
-
-                Object.keys(obj).forEach( key => {
-                    let el = document.createElement('option');
-                    el.value = key;
-                    el.innerHTML = `${name}: ${key}`;
-                    menu.appendChild(el);
-                });
-
-                menu.addEventListener('change', (event) => { 
-                    value_callback( obj[event.target.value] );
-                });
-            }
-
-
-            makeMenu("#sel_video", videoInDevices, (val) => {
-                console.log('set video to ', val);
-                selectedVideoID = val;
-            });
-
-            makeMenu("#sel_audio", audioInDevcies, (val) => {
-                console.log('set audio to ', val);
-                selectedAudioID = val;
-            });
-
-            document.getElementById("device_selection").style.display = "block";
-
-        }
-        */
 
         let startBtn = document.getElementById('start_stream');
         startBtn.onclick = startSelectedStream;
-        /*
-        async () => {
-            if( localMediaStream ){
-                localMediaStream = null;
-            }
-
-            try {
-                localMediaStream = await navigator.mediaDevices.getUserMedia({
-                    video: selectedVideoID == "default" ? true : { deviceId: selectedVideoID },
-                    audio: selectedAudioID == "default" ? true : { deviceId: selectedAudioID }
-                });
-
-            }
-            catch (e) {
-                console.error('start camera error', e);
-            }
-
-            await soupclient.sendStream(localMediaStream);
-
-
-            const ret = await window.drawsocket.on_newLocalStream(localMediaStream);
-            if( ret != 1 )
-            {
-                defaultDisplay();
-            }
-            
-            modal.style.display = "none";
-        }
-        */
-
+        
        setupMax();
 
 
