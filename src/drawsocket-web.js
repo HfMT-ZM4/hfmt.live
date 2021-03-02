@@ -2193,7 +2193,7 @@ function pingResponse() {
 }
 
 function do_sync() {
-  console.log('starting sync');
+  //console.log('starting sync');
 
   statusDiv.innerHTML = "<p>synchronizing...</p>";
   statusDiv.style.visibility = "visible";
@@ -2569,7 +2569,7 @@ function initTimesync(socket_)
 
   ts.on('sync', function (state) {
 
-    console.log('syncing', state);
+  //  console.log('syncing', state);
     statusDiv.innerHTML = "synchronizing...";
   //  statusDiv.style.visibility = "visible";
 
