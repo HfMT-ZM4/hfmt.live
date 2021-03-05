@@ -54,6 +54,10 @@
         background-color: black;
     }
 
+    .quintetnet_div #quintetnet-local {
+        height: 95px;
+    }
+
     .quintetnet_div #startbutton {
         height: 20px;
     }
@@ -138,8 +142,10 @@
         document.body.appendChild(quintetdiv);
 
         let ui_div = document.getElementById('default_ui');
+        let localUI_div = document.getElementById('local_ui');
 
         ui_div.parentElement.removeChild(ui_div);
+        localUI_div.parentElement.removeChild(localUI_div);
         
         let log = document.getElementById('statusDiv');
         log.style.visibility = "hidden";
