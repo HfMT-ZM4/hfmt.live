@@ -1,0 +1,89 @@
+
+<style>
+    .selected {
+        background-color: lightblue;
+    }
+</style>
+
+<button id="play-btn">play</button>
+
+
+<script>
+
+    window.addEventListener("load", ()=> {
+
+        let play_btn = document.getElementById('play-btn');
+        play_btn.addEventListener("click", () => {
+            if( !play_btn.classList.contains("selected") )
+            {
+                play_btn.classList.add("selected");
+                play_btn.innerHTML = "stop";
+
+                drawsocket.sendRoomMessage({
+                    "*" : {
+                        key: "tween",
+                        val: {
+                            id: "score-anim",
+                            cmd: "start"
+                        },
+                        timetag: Date.now() + drawsocket.sync.offset 
+                    }
+                })
+
+            }
+            else
+            {
+
+                play_btn.classList.remove("selected");
+                play_btn.innerHTML = "play";
+                drawsocket.sendRoomMessage({
+                    "*" : {
+                        key: "tween",
+                        val: {
+                            id: "score-anim",
+                            cmd: "stop"
+                        }
+                    }
+                })
+            }
+
+        });
+
+    });
+
+/*
+
+<button id="playbutton" class="button ready" onclick="if( !this.classList.contains('ready') )
+            {
+                this.classList.add('ready');
+                drawsocket.input({
+                    key: 'tween',
+                    val: [ {
+                        id: 'score-anim',
+                        cmd : 'play'
+                    }, {
+                        id: 'miniscore-anim',
+                        cmd : 'play'
+                    } ],
+                    timetag: Date.now()
+                });
+            } else {
+                this.classList.remove('ready');
+                let starttime = document.getElementById('userinput');
+                drawsocket.input({
+                    key: 'tween',
+                    val: [{
+                        id: 'score-anim',
+                        cmd: 'pause',
+                        time: starttime.value
+                    }, {
+                        id: 'miniscore-anim',
+                        cmd : 'pause',
+                        time: starttime.value
+                    }]
+                });
+            }" style="float: left;">play</button>
+*/
+
+</script>
+
