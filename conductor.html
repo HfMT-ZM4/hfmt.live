@@ -12,8 +12,10 @@
 
     window.addEventListener("load", ()=> {
 
+        console.log("loading");
         let play_btn = document.getElementById('play-btn');
         play_btn.addEventListener("click", () => {
+            console.log("click");
             if( !play_btn.classList.contains("selected") )
             {
                 play_btn.classList.add("selected");
