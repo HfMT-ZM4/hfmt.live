@@ -5,7 +5,7 @@
     }
 
     div {
-        background-color: #FFBAEA;
+        background-color: #333333;
     }
 
     /* Buttons styles start */
@@ -14,7 +14,7 @@
         border: none;
         margin: 0;
         text-decoration: none;
-        background: #FF3333;
+        background: #555555;
         color: #DDDDe6;
         font-family: sans-serif;
         font-size: 0.75rem;
@@ -73,9 +73,8 @@
 </style>
 
 <div id="quintetnet" class="quintetnet_div">
-    <button class="quintet_btn" id="startbutton">start webcam</button> 
+    <button class="quintet_btn" id="startbutton">start video</button> 
     <button class="quintet_btn" id="mutebutton">mute</button> 
-    <video id="quintetnet-local" autoplay playsinline muted></video>
     <video id="quintetnet-1" autoplay playsinline muted></video>
     <video id="quintetnet-2" autoplay playsinline muted></video>
     <video id="quintetnet-3" autoplay playsinline muted></video>
@@ -120,17 +119,6 @@
 
     drawsocket.on_newPeerStream = async (stream, kind, id) => {
         streamHandler(stream, kind, id);
-        return 1;
-    }
-
-    drawsocket.on_newLocalStream = async (stream) => {
-        let localvid = document.getElementById("quintetnet-local");
-        localvid.srcObject = stream;
-
-        let qvid = document.getElementById(`quintetnet-${url_args.get('id')}`);
-        if( qvid )
-            qvid.srcObject = stream;
-
         return 1;
     }
 
