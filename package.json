@@ -15,7 +15,7 @@
     "http": "0.0.1-security",
     "mediasoup": "^3.6.32",
     "mediasoup-client": "^3.6.5",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "pdfjs-dist": "^2.3.200",
     "promise": "^8.1.0",
     "socket.io": "^3.1.1",
